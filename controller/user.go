@@ -838,6 +838,65 @@ func CreateUser(c *gin.Context) {
 	return
 }
 
+type AdminQuickAddUserSubscriptionRequest struct {
+	PlanId int `json:"plan_id"`
+}
+
+func AdminQuickAddUserSubscription(c *gin.Context) {
+	var req AdminQuickAddUserSubscriptionRequest
+	if err := c.ShouldBindJSON(&req); err != nil || req.PlanId <= 0 {
+		common.ApiErrorMsg(c, "参数错误")
+		return
+	}
+
+	// 1. 生成用户名和密码
+	username := fmt.Sprintf("user_%s", common.GetRandomString(8))
+	password := common.GetRandomString(16)
+
+	// 2. 创建用户
+	cleanUser := model.User{
+		Username:    username,
+		Password:    password,
+		DisplayName: username,
+		Role:        common.RoleCommonUser,
+	}
+	if err := cleanUser.Insert(0); err != nil {
+		common.ApiError(c, err)
+		return
+	}
+
+	// 3. 获取插入后的用户ID
+	var insertedUser model.User
+	if err := model.DB.Where("username = ?", cleanUser.Username).First(&insertedUser).Error; err != nil {
+		common.ApiErrorMsg(c, "获取新建用户失败")
+		return
+	}
+
+	// 4. 为用户绑定订阅
+	msg, err := model.AdminBindSubscription(insertedUser.Id, req.PlanId, "")
+	if err != nil {
+		common.ApiError(c, err)
+		return
+	}
+	if msg != "" {
+		common.ApiErrorMsg(c, msg)
+		return
+	}
+
+	// 5. 获取订阅包名称以便展示
+	var plan model.SubscriptionPlan
+	if err := model.DB.First(&plan, req.PlanId).Error; err != nil {
+		plan.Title = "未知订阅"
+	}
+
+	// 6. 返回信息
+	common.ApiSuccess(c, gin.H{
+		"username":   username,
+		"password":   password,
+		"plan_title": plan.Title,
+	})
+}
+
 type ManageRequest struct {
 	Id     int    `json:"id"`
 	Action string `json:"action"`

@@ -24,6 +24,7 @@ import UsersActions from './UsersActions';
 import UsersFilters from './UsersFilters';
 import UsersDescription from './UsersDescription';
 import AddUserModal from './modals/AddUserModal';
+import QuickAddUserModal from './modals/QuickAddUserModal';
 import EditUserModal from './modals/EditUserModal';
 import { useUsersData } from '../../../hooks/users/useUsersData';
 import { useIsMobile } from '../../../hooks/common/useIsMobile';
@@ -36,10 +37,13 @@ const UsersPage = () => {
   const {
     // Modal state
     showAddUser,
+    showQuickAddUser,
     showEditUser,
     editingUser,
     setShowAddUser,
+    setShowQuickAddUser,
     closeAddUser,
+    closeQuickAddUser,
     closeEditUser,
     refresh,
 
@@ -70,6 +74,12 @@ const UsersPage = () => {
         handleClose={closeAddUser}
       />
 
+      <QuickAddUserModal
+        refresh={refresh}
+        visible={showQuickAddUser}
+        handleClose={closeQuickAddUser}
+      />
+
       <EditUserModal
         refresh={refresh}
         visible={showEditUser}
@@ -88,7 +98,7 @@ const UsersPage = () => {
         }
         actionsArea={
           <div className='flex flex-col md:flex-row justify-between items-center gap-2 w-full'>
-            <UsersActions setShowAddUser={setShowAddUser} t={t} />
+            <UsersActions setShowAddUser={setShowAddUser} setShowQuickAddUser={setShowQuickAddUser} t={t} />
 
             <UsersFilters
               formInitValues={formInitValues}
