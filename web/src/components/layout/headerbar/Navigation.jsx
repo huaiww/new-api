@@ -18,7 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import SkeletonWrapper from '../components/SkeletonWrapper';
 
 const Navigation = ({
@@ -28,10 +28,7 @@ const Navigation = ({
   userState,
   pricingRequireAuth,
 }) => {
-  const location = useLocation();
-  const isHomePage = location.pathname === '/';
-
-  if (isHomePage && (!userState || !userState.user)) {
+  if (!userState || !userState.user) {
     return <div className='flex flex-1 items-center gap-1 lg:gap-2 mx-2 md:mx-4'></div>;
   }
 

@@ -137,36 +137,33 @@ const Home = () => {
         isMobile={isMobile}
       />
       {homePageContentLoaded && homePageContent === '' ? (
-        <div className='w-full min-h-[calc(100vh-64px)] bg-[#0B0F19] text-white flex items-center justify-center p-6 lg:p-12 overflow-x-hidden relative'>
+        <div className='w-full lg:h-[calc(100vh-64px)] min-h-[calc(100vh-64px)] bg-[#FAFAFA] dark:bg-[#0B0F19] text-gray-900 dark:text-white flex items-center justify-center p-6 lg:p-8 xl:p-12 overflow-x-hidden lg:overflow-hidden relative'>
           {/* 背景模糊晕染球 */}
-          <div className='blur-ball blur-ball-indigo opacity-20' style={{top: '10%', left: '20%'}} />
-          <div className='blur-ball blur-ball-teal opacity-10' style={{bottom: '10%', right: '20%'}} />
-          
-          <div className='max-w-7xl w-full flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-12 lg:gap-20 z-10'>
+          <div className='blur-ball blur-ball-indigo opacity-40 dark:opacity-20' style={{ top: '10%', left: '20%' }} />
+          <div className='blur-ball blur-ball-teal opacity-20 dark:opacity-10' style={{ bottom: '10%', right: '20%' }} />
+
+          <div className='max-w-7xl w-full flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-10 lg:gap-12 xl:gap-20 z-10'>
             {/* 左侧内容区 */}
             <div className='flex-1 flex flex-col items-start'>
-              <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-blue-900/30 text-blue-400 text-sm mb-6 border border-blue-800/50 font-medium">
-                {t('面向企业的 AI 生产力基座')}
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.2] mb-6 tracking-tight">
-                {t('统一的大模型接口网关')}
+              <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 dark:text-white leading-[1.2] mb-4 xl:mb-6 tracking-tight">
+                <span className="shine-text">{t('统一的大模型接口网关')}</span>
                 <br />
-                {t('链接全球')} <span className="text-yellow-500">{t('AI 能力')}</span>
+                <span className="shine-text">{t('链接全球')}</span> <span className="text-blue-600 dark:text-yellow-500 shine-text">{t('AI 能力')}</span>
               </h1>
-              <p className="text-gray-400 text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
-                {t('以一套域名、密钥与风控策略连接全球大模型资源，保障可观测、可拓展、可控。')}
+              <p className="text-gray-500 dark:text-gray-400 text-lg md:text-xl max-w-xl mb-6 xl:mb-10 leading-relaxed">
+                {t('更好的价格，更好的稳定性。')}
               </p>
 
               {/* URL 模拟框 */}
-              <div className="bg-[#1A1E27] border border-[#2A2E37] rounded-2xl p-5 mb-10 w-full max-w-xl shadow-2xl">
-                <div className="text-gray-400 text-sm mb-3 ml-1 font-medium">
+              <div className="bg-white dark:bg-[#1A1E27] border-none dark:border-solid border dark:border-[#2A2E37] rounded-3xl p-4 xl:p-5 mb-6 xl:mb-10 w-full max-w-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-2xl">
+                <div className="text-gray-400 dark:text-gray-400 text-xs xl:text-sm mb-2 xl:mb-3 ml-2 font-medium">
                   {t('替换基础 URL 即可接入')}
                 </div>
-                <div className="flex items-center bg-[#13161C] rounded-xl p-3 border border-gray-800/50">
-                  <div className="flex-1 text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap pl-2 font-mono text-sm">
+                <div className="flex items-center bg-gray-50 dark:bg-[#13161C] rounded-2xl p-2 xl:p-3 border border-gray-100 dark:border-gray-800/50">
+                  <div className="flex-1 text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap pl-2 font-mono text-xs xl:text-sm">
                     {serverAddress}
                   </div>
-                  <div className="text-blue-400 px-3 font-mono text-sm flex items-center">
+                  <div className="text-blue-500 dark:text-blue-400 px-3 font-mono text-xs xl:text-sm flex items-center">
                     <ScrollList
                       bodyHeight={20}
                       style={{ border: 'unset', boxShadow: 'unset', background: 'transparent' }}
@@ -180,18 +177,18 @@ const Home = () => {
                       />
                     </ScrollList>
                   </div>
-                  <Button icon={<IconCopy />} theme="borderless" style={{color: '#6B7280'}} onClick={handleCopyBaseURL} />
+                  <Button icon={<IconCopy />} theme="borderless" style={{ color: '#9CA3AF' }} onClick={handleCopyBaseURL} />
                 </div>
               </div>
 
               {/* 操作按钮组 */}
-              <div className="flex flex-row gap-4 mb-16 w-full sm:w-auto">
+              <div className="flex flex-row gap-4 mb-8 xl:mb-16 w-full sm:w-auto">
                 <Link to='/console' className="w-full sm:w-auto">
                   <Button
                     theme='solid'
                     type='primary'
                     size="large"
-                    className='!rounded-xl px-8 w-full sm:w-auto !h-12 text-base font-medium shadow-lg shadow-blue-500/20'
+                    className='!rounded-2xl px-6 xl:px-8 w-full sm:w-auto !h-10 xl:!h-12 text-sm xl:text-base font-semibold shadow-lg shadow-blue-500/30'
                     icon={<IconPlay />}
                   >
                     {t('获取密钥')}
@@ -200,7 +197,7 @@ const Home = () => {
                 {docsLink && (
                   <Button
                     size="large"
-                    className='!rounded-xl px-8 w-full sm:w-auto !h-12 text-base font-medium !bg-[#1A1E27] hover:!bg-[#2A2E37] !text-white !border-[#2A2E37]'
+                    className='!rounded-2xl px-6 xl:px-8 w-full sm:w-auto !h-10 xl:!h-12 text-sm xl:text-base font-semibold !bg-gray-100 dark:!bg-[#1A1E27] hover:!bg-gray-200 dark:hover:!bg-[#2A2E37] !text-blue-600 dark:!text-white border-none dark:!border-solid border border-transparent dark:!border-[#2A2E37]'
                     icon={<IconFile />}
                     onClick={() => window.open(docsLink, '_blank')}
                   >
@@ -210,57 +207,41 @@ const Home = () => {
               </div>
 
               {/* 底部数据状态 */}
-              <div className="flex flex-row flex-wrap gap-4 md:gap-6 w-full">
-                <div className="flex flex-col bg-[#1A1E27]/80 rounded-2xl p-5 border border-[#2A2E37]/50 flex-1 min-w-[140px]">
-                  <div className="text-3xl font-bold text-white mb-2 tracking-tight">30+</div>
-                  <div className="text-gray-400 text-xs md:text-sm font-medium">{t('可覆盖模型')}</div>
+              <div className="flex flex-row flex-wrap gap-3 xl:gap-6 w-full">
+                <div className="flex flex-col bg-gradient-to-br from-indigo-50/50 to-purple-50/50 dark:from-[#1A1E27]/80 dark:to-[#1A1E27]/80 rounded-2xl p-4 xl:p-5 border border-dashed border-indigo-200 dark:border-solid dark:border-[#2A2E37]/50 flex-1 min-w-[120px] xl:min-w-[140px]">
+                  <div className="text-2xl xl:text-3xl font-extrabold text-gray-900 dark:text-white mb-1 xl:mb-2 tracking-tight">30+</div>
+                  <div className="text-gray-500 dark:text-gray-400 text-xs font-medium">{t('覆盖模型')}</div>
                 </div>
-                <div className="flex flex-col bg-[#1A1E27]/80 rounded-2xl p-5 border border-[#2A2E37]/50 flex-1 min-w-[140px]">
-                  <div className="text-3xl font-bold text-white mb-2 tracking-tight">99.9%</div>
-                  <div className="text-gray-400 text-xs md:text-sm font-medium">SLA {t('可用性')}</div>
-                </div>
-                <div className="flex flex-col bg-[#1A1E27]/80 rounded-2xl p-5 border border-[#2A2E37]/50 flex-1 min-w-[140px]">
-                  <div className="text-3xl font-bold text-white mb-2 tracking-tight">7</div>
-                  <div className="text-gray-400 text-xs md:text-sm font-medium">{t('多区域节点')}</div>
+                <div className="flex flex-col bg-gradient-to-br from-blue-50/50 to-indigo-50/50 dark:from-[#1A1E27]/80 dark:to-[#1A1E27]/80 rounded-2xl p-4 xl:p-5 border border-dashed border-blue-200 dark:border-solid dark:border-[#2A2E37]/50 flex-1 min-w-[120px] xl:min-w-[140px]">
+                  <div className="text-2xl xl:text-3xl font-extrabold text-gray-900 dark:text-white mb-1 xl:mb-2 tracking-tight">99.9%</div>
+                  <div className="text-gray-500 dark:text-gray-400 text-xs font-medium">SLA {t('可用性')}</div>
                 </div>
               </div>
             </div>
 
             {/* 右侧卡片区 */}
-            <div className="w-full lg:w-[460px] flex-shrink-0 flex flex-col gap-4 bg-[#12161F]/50 p-6 lg:p-8 rounded-[2rem] border border-[#2A2E37]/50 shadow-2xl backdrop-blur-sm">
-              <div className="bg-[#1A1E27] border border-[#2A2E37] p-6 rounded-2xl hover:border-blue-500/30 transition-all duration-300 group">
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:bg-blue-500/20 transition-colors">
+            <div className="w-full lg:w-[420px] xl:w-[460px] flex-shrink-0 flex flex-col gap-3 xl:gap-4 bg-white dark:bg-[#12161F]/50 p-5 xl:p-8 rounded-[2.5rem] border-none dark:border-solid border border-transparent dark:border-[#2A2E37]/50 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] dark:shadow-2xl backdrop-blur-sm">
+              <div className="bg-white dark:bg-[#1A1E27] border border-gray-100 dark:border-[#2A2E37] p-5 xl:p-6 rounded-3xl hover:border-blue-500/30 transition-all duration-300 group shadow-sm hover:shadow-md dark:shadow-none">
+                <div className="flex items-center gap-3 xl:gap-4 mb-2 xl:mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-500 group-hover:bg-blue-100 dark:group-hover:bg-blue-500/20 transition-colors">
                     <IconHistory size="large" />
                   </div>
-                  <div className="text-lg font-semibold text-white">{t('实时调度')}</div>
+                  <div className="text-base xl:text-lg font-bold text-gray-900 dark:text-white">{t('实时查询')}</div>
                 </div>
-                <div className="text-gray-400 text-sm leading-relaxed ml-14">
-                  {t('健康度与延迟权重动态切换，保证最优响应。')}
-                </div>
-              </div>
-
-              <div className="bg-[#1A1E27] border border-[#2A2E37] p-6 rounded-2xl hover:border-indigo-500/30 transition-all duration-300 group">
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-500/20 transition-colors">
-                    <IconKanban size="large" />
-                  </div>
-                  <div className="text-lg font-semibold text-white">{t('统一监控')}</div>
-                </div>
-                <div className="text-gray-400 text-sm leading-relaxed ml-14">
-                  {t('调用、费用、异常一站式可视化，随时掌握运行状态。')}
+                <div className="text-gray-500 dark:text-gray-400 text-xs xl:text-sm leading-relaxed ml-13 xl:ml-14">
+                  {t('调用记录及消耗一目了然。')}
                 </div>
               </div>
 
-              <div className="bg-[#1A1E27] border border-[#2A2E37] p-6 rounded-2xl hover:border-purple-500/30 transition-all duration-300 group">
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+              <div className="bg-white dark:bg-[#1A1E27] border border-gray-100 dark:border-[#2A2E37] p-5 xl:p-6 rounded-3xl hover:border-purple-500/30 transition-all duration-300 group shadow-sm hover:shadow-md dark:shadow-none">
+                <div className="flex items-center gap-3 xl:gap-4 mb-2 xl:mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-500/10 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:bg-purple-100 dark:group-hover:bg-purple-500/20 transition-colors">
                     <IconCloudStroked size="large" />
                   </div>
-                  <div className="text-lg font-semibold text-white">{t('智能限流')}</div>
+                  <div className="text-base xl:text-lg font-bold text-gray-900 dark:text-white">{t('智能限流')}</div>
                 </div>
-                <div className="text-gray-400 text-sm leading-relaxed ml-14">
-                  {t('多维策略保障核心业务优先级，避免突发拥堵。')}
+                <div className="text-gray-500 dark:text-gray-400 text-xs xl:text-sm leading-relaxed ml-13 xl:ml-14">
+                  {t('多维策略保障服务，避免突发拥堵。')}
                 </div>
               </div>
             </div>

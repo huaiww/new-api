@@ -195,9 +195,9 @@ const FooterBar = () => {
             </Typography.Text>
           </div>
 
-          <div className='text-sm'>
+          {/* <div className='text-sm'>
             <span className='!text-semi-color-text-1'>
-              {t('设计与开发由')}{' '}
+              {t('Lazy Code 基于 New API 开发')}{' '}
             </span>
             <a
               href='https://github.com/QuantumNous/new-api'
@@ -205,9 +205,9 @@ const FooterBar = () => {
               rel='noopener noreferrer'
               className='!text-semi-color-primary font-medium'
             >
-              New API
+              Lazy Code 基于 New API 开发
             </a>
-          </div>
+          </div> */}
         </div>
       </footer>
     ),
