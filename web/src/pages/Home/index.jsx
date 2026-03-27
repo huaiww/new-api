@@ -37,31 +37,12 @@ import {
   IconPlay,
   IconFile,
   IconCopy,
+  IconHistory,
+  IconKanban,
+  IconCloudStroked,
 } from '@douyinfe/semi-icons';
 import { Link } from 'react-router-dom';
 import NoticeModal from '../../components/layout/NoticeModal';
-import {
-  Moonshot,
-  OpenAI,
-  XAI,
-  Zhipu,
-  Volcengine,
-  Cohere,
-  Claude,
-  Gemini,
-  Suno,
-  Minimax,
-  Wenxin,
-  Spark,
-  Qingyan,
-  DeepSeek,
-  Qwen,
-  Midjourney,
-  Grok,
-  AzureAI,
-  Hunyuan,
-  Xinference,
-} from '@lobehub/icons';
 
 const { Text } = Typography;
 
@@ -156,179 +137,130 @@ const Home = () => {
         isMobile={isMobile}
       />
       {homePageContentLoaded && homePageContent === '' ? (
-        <div className='w-full overflow-x-hidden'>
-          {/* Banner 部分 */}
-          <div className='w-full border-b border-semi-color-border min-h-[500px] md:min-h-[600px] lg:min-h-[700px] relative overflow-x-hidden'>
-            {/* 背景模糊晕染球 */}
-            <div className='blur-ball blur-ball-indigo' />
-            <div className='blur-ball blur-ball-teal' />
-            <div className='flex items-center justify-center h-full px-4 py-20 md:py-24 lg:py-32 mt-10'>
-              {/* 居中内容区 */}
-              <div className='flex flex-col items-center justify-center text-center max-w-4xl mx-auto'>
-                <div className='flex flex-col items-center justify-center mb-6 md:mb-8'>
-                  <h1
-                    className={`text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-semi-color-text-0 leading-tight ${isChinese ? 'tracking-wide md:tracking-wider' : ''}`}
+        <div className='w-full min-h-[calc(100vh-64px)] bg-[#0B0F19] text-white flex items-center justify-center p-6 lg:p-12 overflow-x-hidden relative'>
+          {/* 背景模糊晕染球 */}
+          <div className='blur-ball blur-ball-indigo opacity-20' style={{top: '10%', left: '20%'}} />
+          <div className='blur-ball blur-ball-teal opacity-10' style={{bottom: '10%', right: '20%'}} />
+          
+          <div className='max-w-7xl w-full flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-12 lg:gap-20 z-10'>
+            {/* 左侧内容区 */}
+            <div className='flex-1 flex flex-col items-start'>
+              <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-blue-900/30 text-blue-400 text-sm mb-6 border border-blue-800/50 font-medium">
+                {t('面向企业的 AI 生产力基座')}
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.2] mb-6 tracking-tight">
+                {t('统一的大模型接口网关')}
+                <br />
+                {t('链接全球')} <span className="text-yellow-500">{t('AI 能力')}</span>
+              </h1>
+              <p className="text-gray-400 text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
+                {t('以一套域名、密钥与风控策略连接全球大模型资源，保障可观测、可拓展、可控。')}
+              </p>
+
+              {/* URL 模拟框 */}
+              <div className="bg-[#1A1E27] border border-[#2A2E37] rounded-2xl p-5 mb-10 w-full max-w-xl shadow-2xl">
+                <div className="text-gray-400 text-sm mb-3 ml-1 font-medium">
+                  {t('替换基础 URL 即可接入')}
+                </div>
+                <div className="flex items-center bg-[#13161C] rounded-xl p-3 border border-gray-800/50">
+                  <div className="flex-1 text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap pl-2 font-mono text-sm">
+                    {serverAddress}
+                  </div>
+                  <div className="text-blue-400 px-3 font-mono text-sm flex items-center">
+                    <ScrollList
+                      bodyHeight={20}
+                      style={{ border: 'unset', boxShadow: 'unset', background: 'transparent' }}
+                    >
+                      <ScrollItem
+                        mode='wheel'
+                        cycled={true}
+                        list={endpointItems}
+                        selectedIndex={endpointIndex}
+                        onSelect={({ index }) => setEndpointIndex(index)}
+                      />
+                    </ScrollList>
+                  </div>
+                  <Button icon={<IconCopy />} theme="borderless" style={{color: '#6B7280'}} onClick={handleCopyBaseURL} />
+                </div>
+              </div>
+
+              {/* 操作按钮组 */}
+              <div className="flex flex-row gap-4 mb-16 w-full sm:w-auto">
+                <Link to='/console' className="w-full sm:w-auto">
+                  <Button
+                    theme='solid'
+                    type='primary'
+                    size="large"
+                    className='!rounded-xl px-8 w-full sm:w-auto !h-12 text-base font-medium shadow-lg shadow-blue-500/20'
+                    icon={<IconPlay />}
                   >
-                    <>
-                      {t('统一的')}
-                      <br />
-                      <span className='shine-text'>{t('大模型接口网关')}</span>
-                    </>
-                  </h1>
-                  <p className='text-base md:text-lg lg:text-xl text-semi-color-text-1 mt-4 md:mt-6 max-w-xl'>
-                    {t('更好的价格，更好的稳定性，只需要将模型基址替换为：')}
-                  </p>
-                  {/* BASE URL 与端点选择 */}
-                  <div className='flex flex-col md:flex-row items-center justify-center gap-4 w-full mt-4 md:mt-6 max-w-md'>
-                    <Input
-                      readonly
-                      value={serverAddress}
-                      className='flex-1 !rounded-full'
-                      size={isMobile ? 'default' : 'large'}
-                      suffix={
-                        <div className='flex items-center gap-2'>
-                          <ScrollList
-                            bodyHeight={32}
-                            style={{ border: 'unset', boxShadow: 'unset' }}
-                          >
-                            <ScrollItem
-                              mode='wheel'
-                              cycled={true}
-                              list={endpointItems}
-                              selectedIndex={endpointIndex}
-                              onSelect={({ index }) => setEndpointIndex(index)}
-                            />
-                          </ScrollList>
-                          <Button
-                            type='primary'
-                            onClick={handleCopyBaseURL}
-                            icon={<IconCopy />}
-                            className='!rounded-full'
-                          />
-                        </div>
-                      }
-                    />
-                  </div>
-                </div>
+                    {t('获取密钥')}
+                  </Button>
+                </Link>
+                {docsLink && (
+                  <Button
+                    size="large"
+                    className='!rounded-xl px-8 w-full sm:w-auto !h-12 text-base font-medium !bg-[#1A1E27] hover:!bg-[#2A2E37] !text-white !border-[#2A2E37]'
+                    icon={<IconFile />}
+                    onClick={() => window.open(docsLink, '_blank')}
+                  >
+                    {t('文档')}
+                  </Button>
+                )}
+              </div>
 
-                {/* 操作按钮 */}
-                <div className='flex flex-row gap-4 justify-center items-center'>
-                  <Link to='/console'>
-                    <Button
-                      theme='solid'
-                      type='primary'
-                      size={isMobile ? 'default' : 'large'}
-                      className='!rounded-3xl px-8 py-2'
-                      icon={<IconPlay />}
-                    >
-                      {t('获取密钥')}
-                    </Button>
-                  </Link>
-                  {isDemoSiteMode && statusState?.status?.version ? (
-                    <Button
-                      size={isMobile ? 'default' : 'large'}
-                      className='flex items-center !rounded-3xl px-6 py-2'
-                      icon={<IconGithubLogo />}
-                      onClick={() =>
-                        window.open(
-                          'https://github.com/QuantumNous/new-api',
-                          '_blank',
-                        )
-                      }
-                    >
-                      {statusState.status.version}
-                    </Button>
-                  ) : (
-                    docsLink && (
-                      <Button
-                        size={isMobile ? 'default' : 'large'}
-                        className='flex items-center !rounded-3xl px-6 py-2'
-                        icon={<IconFile />}
-                        onClick={() => window.open(docsLink, '_blank')}
-                      >
-                        {t('文档')}
-                      </Button>
-                    )
-                  )}
+              {/* 底部数据状态 */}
+              <div className="flex flex-row flex-wrap gap-4 md:gap-6 w-full">
+                <div className="flex flex-col bg-[#1A1E27]/80 rounded-2xl p-5 border border-[#2A2E37]/50 flex-1 min-w-[140px]">
+                  <div className="text-3xl font-bold text-white mb-2 tracking-tight">30+</div>
+                  <div className="text-gray-400 text-xs md:text-sm font-medium">{t('可覆盖模型')}</div>
                 </div>
+                <div className="flex flex-col bg-[#1A1E27]/80 rounded-2xl p-5 border border-[#2A2E37]/50 flex-1 min-w-[140px]">
+                  <div className="text-3xl font-bold text-white mb-2 tracking-tight">99.9%</div>
+                  <div className="text-gray-400 text-xs md:text-sm font-medium">SLA {t('可用性')}</div>
+                </div>
+                <div className="flex flex-col bg-[#1A1E27]/80 rounded-2xl p-5 border border-[#2A2E37]/50 flex-1 min-w-[140px]">
+                  <div className="text-3xl font-bold text-white mb-2 tracking-tight">7</div>
+                  <div className="text-gray-400 text-xs md:text-sm font-medium">{t('多区域节点')}</div>
+                </div>
+              </div>
+            </div>
 
-                {/* 框架兼容性图标 */}
-                <div className='mt-12 md:mt-16 lg:mt-20 w-full'>
-                  <div className='flex items-center mb-6 md:mb-8 justify-center'>
-                    <Text
-                      type='tertiary'
-                      className='text-lg md:text-xl lg:text-2xl font-light'
-                    >
-                      {t('支持众多的大模型供应商')}
-                    </Text>
+            {/* 右侧卡片区 */}
+            <div className="w-full lg:w-[460px] flex-shrink-0 flex flex-col gap-4 bg-[#12161F]/50 p-6 lg:p-8 rounded-[2rem] border border-[#2A2E37]/50 shadow-2xl backdrop-blur-sm">
+              <div className="bg-[#1A1E27] border border-[#2A2E37] p-6 rounded-2xl hover:border-blue-500/30 transition-all duration-300 group">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:bg-blue-500/20 transition-colors">
+                    <IconHistory size="large" />
                   </div>
-                  <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 max-w-5xl mx-auto px-4'>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Moonshot size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <OpenAI size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <XAI size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Zhipu.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Volcengine.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Cohere.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Claude.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Gemini.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Suno size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Minimax.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Wenxin.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Spark.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Qingyan.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <DeepSeek.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Qwen.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Midjourney size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Grok size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <AzureAI.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Hunyuan.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Xinference.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Typography.Text className='!text-lg sm:!text-xl md:!text-2xl lg:!text-3xl font-bold'>
-                        30+
-                      </Typography.Text>
-                    </div>
+                  <div className="text-lg font-semibold text-white">{t('实时调度')}</div>
+                </div>
+                <div className="text-gray-400 text-sm leading-relaxed ml-14">
+                  {t('健康度与延迟权重动态切换，保证最优响应。')}
+                </div>
+              </div>
+
+              <div className="bg-[#1A1E27] border border-[#2A2E37] p-6 rounded-2xl hover:border-indigo-500/30 transition-all duration-300 group">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-500/20 transition-colors">
+                    <IconKanban size="large" />
                   </div>
+                  <div className="text-lg font-semibold text-white">{t('统一监控')}</div>
+                </div>
+                <div className="text-gray-400 text-sm leading-relaxed ml-14">
+                  {t('调用、费用、异常一站式可视化，随时掌握运行状态。')}
+                </div>
+              </div>
+
+              <div className="bg-[#1A1E27] border border-[#2A2E37] p-6 rounded-2xl hover:border-purple-500/30 transition-all duration-300 group">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+                    <IconCloudStroked size="large" />
+                  </div>
+                  <div className="text-lg font-semibold text-white">{t('智能限流')}</div>
+                </div>
+                <div className="text-gray-400 text-sm leading-relaxed ml-14">
+                  {t('多维策略保障核心业务优先级，避免突发拥堵。')}
                 </div>
               </div>
             </div>
